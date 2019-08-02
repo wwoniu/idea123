@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                            http://www.springframework.org/schema/beans/spring-beans.xsd
+                            http://www.springframework.org/schema/context
+                            http://www.springframework.org/schema/context/spring-context.xsd
+                            http://www.springframework.org/schema/security
+                            http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <!--1.配置需要权限才能访问的资源
+             auto-config属性: true 自动配置
+             use-expressions属性: false 不使用表达式
+    -->
+    <security:http auto-config="true" use-expressions="false">
+        <!--配置拦截的路径 pattern属性: 拦截的路径规则; access属性:需要什么角色才能访问-->
+        <security:intercept-url pattern="/**" access="ROLE_ADMIN"></security:intercept-url>
+    </security:http>
+    <!--2.配置认证管理器-->
+    <security:authentication-manager>
+        <security:authentication-provider>
+            <security:user-service>
+                <!--配置账号密码，以及该账号的角色信息     name属性: 用户名; password属性:密码({noop}不加密方式);  authorities属性:赋予的角色     -->
+                <security:user name="admin" authorities="ROLE_ADMIN" password="{noop}admin"></security:user>
+            </security:user-service>
+        </security:authentication-provider>
+    </security:authentication-manager>
+</beans>
